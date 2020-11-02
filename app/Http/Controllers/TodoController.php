@@ -49,7 +49,7 @@ class TodoController extends Controller
         $input = $request->all();  //
         $input['user_id'] = Auth::id();  // 現在認証(ログイン)されているユーザーのIDを取得しuser_idカラムに格納
         $this->todo->fill($input)->save(); // 
-        return redirect()->to('todo');//
+        return redirect()->route('todo.index');//
     }
 
     /**
@@ -86,7 +86,7 @@ class TodoController extends Controller
     {
         $input = $request->all(); //$input 説明:postで送られてきた情報の変更した値が配列として返ってくる
         $this->todo->find($id)->fill($input)->save(); //store との違いは findがあるかないか findで既存の情報を取得してsave()のなかで laravel側で元のレコードの情報と更新したいレコードの情報を比較して変更箇所があった場合更新してくれる
-        return redirect()->to('todo'); //リダレクトでパス指定している
+        return redirect()->route('todo.index'); //リダレクトでパス指定している
     }
 
     /**
@@ -98,6 +98,6 @@ class TodoController extends Controller
     public function destroy($id)
     {
         $this->todo->find($id)->delete();
-        return redirect()->to('todo');
+        return redirect()->route('todo.index');
     }
 }
