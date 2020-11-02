@@ -1,0 +1,206 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;// Form タグで送信した POST 情報が入っている
+use App\Todo;   //  app/Todo.phpを使用できる require()に近い効力がある
+
+class TodoController extends Controller
+{
+    private $todo; //クラス内でしか使用できない変数
+
+    public function __construct(Todo $instanceClass) //
+    {
+        $this->todo = $instanceClass;// $thisはTodoControlloerを指している $this->todoはapp/app/todo を指している
+    }
+    /**
+     * 一覧ページ
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        $todos = $this->todo->all();  // DBから前件取得している 配列として前件取得している
+        return view('todo.index', compact('todos'));  // view側に渡したい変数を記述する viewにする事によってオブジェクトで帰ってくる
+    }
+
+    /**
+     * 新規作成
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        return view('todo.create');  // 追記
+    }
+
+    /**
+     * 保存する場所
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request) //(Request $request)上記にあるRequestを使用している Form タグで送信した POST 情報を取得する事により実現してます
+    {
+        $input = $request->all();
+        $this->todo->fill($input)->save();
+        return redirect()->to('todo');
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
+    }
+
+    /**
+     * 編集
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $todo = $this->todo->find($id);  // パラメータが送られてきた値を元にDB検索して指定データを取得します
+        return view('todo.edit', compact('todo'));  // 追記
+    }
+
+    /**
+     * 編集更新
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        $input = $request->all();
+        $this->todo->find($id)->fill($input)->save(); // find で検索しfillで設定の確認(検証)し、保存という流れです。
+        return redirect()->to('todo'); //リダレクトでパス指定している
+    }
+
+    /**
+     * 消去
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        $this->todo->find($id)->delete();
+        return redirect()->to('todo');
+    }
+}
+
+
+
+
+
+
+
+
+
+
+// namespace App\Http\Controllers;
+
+// use Illuminate\Http\Request;   // Form タグで送信した POST 情報が入っている
+// use App\Todo;   //  app/Todo.phpを使用できる
+
+// class TodoController extends Controller
+// {
+//     // ここから追記
+//     private $todo;    // クラス内でしか使用できない変数
+
+//     public function __construct(Todo $instanceClass)    //  マジックメソッド オブジェクトがnewによって生成されるメソッド
+//     {
+//         $this->todo = $instanceClass; //app/todoのファイルを指してる
+//     }
+//     //ここまで追記
+//     /**
+//      * Display a listing of the resource.
+//      *
+//      * @return \Illuminate\Http\Response
+//      */
+//     public function index()
+//     {
+//         $todos = $this->todo->all();  // DBから前件取得している 配列として前件取得できる
+//         return view('todo.index', compact('todos'));  // view側に渡したい変数を記述する
+//     }
+
+//     /**
+//      * Show the form for creating a new resource.
+//      *
+//      * @return \Illuminate\Http\Response
+//      */
+//     public function create()
+//     {
+//         return view('todo.create');  // 追記
+//     }
+
+//     /**
+//      * Store a newly created resource in storage.
+//      *
+//      * @param  \Illuminate\Http\Request  $request
+//      * @return \Illuminate\Http\Response
+//      */
+//     public function store(Request $request) //(Request $request)上記にあるRequestを使用している Form タグで送信した POST 情報を取得することを実現してます。
+//     {
+//         $input = $request->all();
+//         $this->todo->fill($input)->save();
+//         return redirect()->to('todo');
+//     }
+
+//     /**
+//      * Display the specified resource.
+//      *
+//      * @param  int  $id
+//      * @return \Illuminate\Http\Response
+//      */
+//     public function show($id)
+//     {
+//         //
+//     }
+
+//     /**
+//      * Show the form for editing the specified resource.
+//      *
+//      * @param  int  $id
+//      * @return \Illuminate\Http\Response
+//      */
+//     public function edit($id)
+//     {
+//         $todo = $this->todo->find($id);  // パラメータがで送られてきた値を元にDB検索して指定データを取得します
+//         return view('todo.edit', compact('todo'));  // 追記
+//     }
+
+//     /**
+//      * Update the specified resource in storage.
+//      *
+//      * @param  \Illuminate\Http\Request  $request
+//      * @param  int  $id
+//      * @return \Illuminate\Http\Response
+//      */
+//     public function update(Request $request, $id)
+//     {
+//         $input = $request->all();
+//         $this->todo->find($id)->fill($input)->save();  // find で検索し、fill で設定の確認(検証)し、保存という流れです。
+//         return redirect()->to('todo');
+//     }
+
+//     /**
+//      * Remove the specified resource from storage.
+//      *
+//      * @param  int  $id
+//      * @return \Illuminate\Http\Response
+//      */
+//     public function destroy($id)
+//     {
+//         $this->todo->find($id)->delete();   // find で検索し、delete で削除
+//         return redirect()->to('todo');
+//     }
+// }
