@@ -3,7 +3,7 @@
 
 <h1 class="page-header">ToDo一覧</h1>
 <p class="text-right">
-  <a class="btn btn-success" href="/todo/create">ToDoを追加</a><!-- * aタグで送られる場合はGET -->
+  <a class="btn btn-success" href="/todo/create">新規作成</a><!-- * aタグで送られる場合はGET -->
 </p>
 <table class="table">
   <thead class="thead-light">
