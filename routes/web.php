@@ -16,6 +16,8 @@ Route::get('/', function () {
 });
 
 Route::resource('todo', 'TodoController');  //
+Route::resource('gizumo', 'Lev_1Controller');  //
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
