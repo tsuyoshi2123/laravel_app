@@ -12,6 +12,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // $this->call(UsersTableSeeder::class);
-        $this->call(TodosTableSeeder::class); // 追加 クラスのクラス名を追記するとによりデータの投入が可能になる 
+        // $this->call(TodosTableSeeder::class); // 追加 クラスのクラス名を追記するとによりデータの投入が可能になる 
+        $this->call(PrefecturesSeeder::class);
     }
 }
